@@ -5,10 +5,12 @@
 структурированный результат. При неоднозначности исходная строка не меняется.
 
 Исходный код находится в `TutorPack/av-russian-names-parsing`. Пакет
-`TutorPack.NameParsing` публикуется в GitHub Packages организации `TutorPack`.
-GitHub требует авторизацию для установки даже публичных NuGet-пакетов:
-добавьте источник `https://nuget.pkg.github.com/TutorPack/index.json` и передайте
-токен с правом `read:packages` через настройки NuGet, не сохраняя его в репозитории.
+`TutorPack.NameParsing` публикуется на NuGet.org. Для его установки используется
+обычный источник NuGet.org без токена:
+
+```sh
+dotnet add package TutorPack.NameParsing --version 0.1.0
+```
 
 ```csharp
 var result = RussianNameAnalyzer.Analyze("Аня Нелюбина");

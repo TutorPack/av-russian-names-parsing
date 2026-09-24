@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TutorPack.NameParsing/TutorPack.NameParsing.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TutorPack.NameParsing.Tests/TutorPack.NameParsing.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,47 @@
+name: build and publish
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet test TutorPack.NameParsing.slnx --configuration Release
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      - name: Verify version tag
+        shell: bash
+        run: |
+          package_version=$(dotnet msbuild src/TutorPack.NameParsing/TutorPack.NameParsing.csproj -getProperty:Version)
+          if [ "${GITHUB_REF_NAME#v}" != "$package_version" ]; then
+            echo "Tag must match the package version ($package_version)." >&2
+            exit 1
+          fi
+      - name: Pack
+        run: dotnet pack src/TutorPack.NameParsing/TutorPack.NameParsing.csproj --configuration Release --output artifacts
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget push artifacts/*.nupkg --source https://nuget.pkg.github.com/TutorPack/index.json --api-key "$GITHUB_TOKEN"

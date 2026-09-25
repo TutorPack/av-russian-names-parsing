@@ -9,7 +9,7 @@
 обычный источник NuGet.org без токена:
 
 ```sh
-dotnet add package TutorPack.NameParsing --version 0.1.0
+dotnet add package TutorPack.NameParsing --version 1.0.0
 ```
 
 ```csharp

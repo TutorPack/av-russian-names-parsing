@@ -5,8 +5,9 @@
 структурированный результат. При неоднозначности исходная строка не меняется.
 
 Исходный код находится в `TutorPack/av-russian-names-parsing`. Пакет
-`TutorPack.NameParsing` публикуется на NuGet.org. Для его установки используется
-обычный источник NuGet.org без токена:
+`TutorPack.NameParsing` публикуется в GitHub Packages. Для его установки добавьте
+источник `https://nuget.pkg.github.com/TutorPack/index.json` и передайте учётные
+данные через `NuGetPackageSourceCredentials_tutorpack`:
 
 ```sh
 dotnet add package TutorPack.NameParsing --version 1.0.0

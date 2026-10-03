@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write
+      packages: write
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v5
@@ -43,12 +43,7 @@ jobs:
           fi
       - name: Pack
         run: dotnet pack src/TutorPack.NameParsing/TutorPack.NameParsing.csproj --configuration Release --output artifacts
-      - name: Get temporary NuGet.org publishing key
-        uses: NuGet/login@v1
-        id: nuget_login
-        with:
-          user: ${{ vars.NUGET_USER }}
-      - name: Publish to NuGet.org
+      - name: Publish to GitHub Packages
         env:
-          NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
-        run: dotnet nuget push artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget push artifacts/*.nupkg --source https://nuget.pkg.github.com/TutorPack/index.json --api-key "$GITHUB_TOKEN"
